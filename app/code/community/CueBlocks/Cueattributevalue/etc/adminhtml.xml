@@ -1,0 +1,56 @@
+<?xml version="1.0"?> 
+<!--
+ * @package     CueBlocks_
+ * @company     CueBlocks - http://www.cueblocks.com/
+ * @author      Francesco Magazzu' <francesco.magazzu at cueblocks.com>
+ -->
+<adminhtml>
+    <menu>
+        <cueblocks module="cueattributevalue">
+            <title>CueBlocks</title>
+            <sort_order>71</sort_order> 
+            <children>
+                <cueattributevalue module="cueattributevalue">
+                    <title>Attribute Labels</title>
+                    <sort_order>0</sort_order>
+                    <children>
+                        <additems module="cueattributevalue">
+                            <title>Add Attribute Labels</title>
+                            <sort_order>0</sort_order>
+                            <action>adminhtml/cueattributevalue</action>
+                        </additems>
+                        <deleteitems module="cueattributevalue">
+                            <title>Delete Attribute Labels</title>
+                            <sort_order>1</sort_order>
+                            <action>adminhtml/cueattributevaluedelete</action>
+                        </deleteitems>
+                    </children>
+                </cueattributevalue>
+            </children>
+        </cueblocks>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <cueblocks>
+                        <title>CueBlocks Extensions</title>
+                        <children>
+                            <cueattributevalue>
+                                <title>Quick Action Attribute Values or Labels</title>
+                                <children>
+                                    <additems>
+                                        <title>Add Attribute Labels</title>
+                                    </additems>
+                                    <deleteitems>
+                                        <title>Delete Attribute Labels</title>
+                                    </deleteitems>
+                                </children>
+                            </cueattributevalue>
+                        </children>
+                    </cueblocks>
+                </children>
+            </admin>
+        </resources>   
+    </acl>
+</adminhtml> 

@@ -1,0 +1,262 @@
+<?php
+/**
+ *
+ * Package :- Quick_Action_Attribute_Values_or_Labels
+ * Edition :- community
+ * Developed By :- CueBlocks.com
+ * 
+ */
+$data=Mage::getSingleton('core/session')->getDelSessionVariable();
+?>
+<script src="<?php echo $this->getJsUrl() ?>mage/adminhtml/loader.js" type="text/javascript"></script>
+
+
+<?php
+
+$eavattributeObj = Mage::getModel('eav/entity_attribute');
+$eavattributeoptionObj = Mage::getModel('eav/entity_attribute_option');
+$attribute_id=$this->getRequest()->getParam('attribute_id');
+if($attribute_id=='')
+	$attribute_id=$data['attribute_id'];
+$store_id=$this->getRequest()->getParam('store_id');
+if($store_id=='')
+	$store_id=$data['store_id'];
+$searchlabel=$this->getRequest()->getParam('search_attribute');
+if($searchlabel=='')
+	$searchlabel=$data['search_attribute'];
+
+
+$filter_a = array('multiselect');
+$filter_b = array('select');
+$rows = $eavattributeObj->getCollection()->addFilter('`is_user_defined`','1')->addFieldToFilter('`frontend_input`',array($filter_a,$filter_b))->load();
+
+$arrdefault[]=array('value'     => '',
+                'label'     => '---Select Attribute Code---');
+foreach($rows as $attribute)
+{
+	$attributelabelsarr[] = array(
+                'value'     => $attribute['attribute_id'],
+                'label'     => $attribute['attribute_code'],
+            );
+}
+$combinedarr=array_merge($arrdefault,$attributelabelsarr);
+
+$storeObj = Mage::getModel('core/store');
+$StoreDetails = $storeObj->getCollection()->addFilter('`is_active`','1')->setLoadDefault(true)->load();
+
+$arrstorerdefault[]=array('value'     => '',
+                'label'     => '---Select Store---');
+foreach($StoreDetails as $store)
+{
+	$storearr[] = array(
+                'value'     => $store['store_id'],
+                'label'     => $store['name'],
+            );
+}
+$finalstorearr=array_merge($arrstorerdefault,$storearr);
+$websiteObj = Mage::getModel('core/website');
+$storegroupObj = Mage::getModel('core/store_group');
+$Website = $websiteObj->getCollection()->setLoadDefault(true)->load();
+?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Delete Attribute Labels')?></h3></td>
+            <td class="a-right">
+                <button onclick="editForm.submit()" class="scalable save" type="button"><span>Search</span></button>
+		<form id="delete_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/delete')?>">
+			<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+			<input type="hidden" id="value_id" name="value_id">
+			<input type="hidden" id="option_id" name="option_id">
+			<input type="hidden" id="attribute_id" name="attribute_id" value="<?php echo $attribute_id?>">
+			<input type="hidden" id="store_id" name="store_id" value="<?php echo $store_id?>">
+			<input type="hidden" id="search_attribute" name="search_attribute" value="<?php echo $searchlabel?>">
+			<button class="scalable save" id="btnsave" name="btnsave" type="submit"><span>Save</span></button>
+		</form>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    	<div class="entry-edit-head">
+        	<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Delete Attribute Labels")?></h4>
+	</div>
+        <fieldset id="my-fieldset">
+		<?php /***Search Form Starts***/ ?>
+		<form id="edit_form" name="edit_form" method="post">
+		<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<table cellspacing="0" class="form-list">
+		<tr>
+			<td colspan="2"><strong>Note:</strong>
+			<ol style="margin:0 0 30px 50px;"><li>1. If you delete 'admin' label, store labels will also be deleted.</li><li>2. If you delete label for particular store then admin label will be displayed.</li></ol></td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->__('Select Attribute Code')?> <span class="required">*</span></td>
+			<td class="input-ele">  <select class="required-entry" name="attribute_id" id="attribute_id">
+						<?php foreach($combinedarr as $arratt){?>					
+						<option value="<?php echo $arratt['value']?>" <?php echo $arratt['value']==$attribute_id ?'selected=selected':''?>><?php echo $arratt['label']?></option>
+						<?php }?>
+						</select>	
+			</td>
+		</tr>
+		<tr>
+			<td class="label"><?php echo $this->__('Select Store')?> <span class="required">*</span></td>
+			<td class="input-ele">  <select name="store_id" id="store_id" class="required-entry">
+							<option value="">---Select Store---</option>	
+						<?php foreach($Website as $Websitename){?>			
+							<option value="" disabled="disabled" style="color:black;font-weight:bold"><?php echo $Websitename['name']?></option>
+								<?php $Store = $storeObj->getCollection()->addFilter('`is_active`','1')->addFilter('`website_id`',$Websitename['website_id'])->setLoadDefault(true)->load();
+									?>	
+					<?php 				$arr='';
+									foreach($Store as $Storename)
+									{
+									$storegroup = $storegroupObj->getCollection()->addFilter('`group_id`',$Storename['group_id'])->setLoadDefault(true)->load();
+									foreach($storegroup as $storegroupname){}
+									if($arr!=$storegroupname['name'])
+									{
+									?>
+										 <optgroup style="padding-left: 16px;" label="<?php echo $storegroupname['name']; $arr=$storegroupname['name'];?>">
+									<?php }?>
+										<option style="" value="<?php echo $Storename['store_id']?>" <?php echo $Storename['store_id']==$store_id ?'selected=selected':' '?>><?php echo $Storename['name']?></option>
+								<?php }?></optgroup>
+						<?php }?>
+						</select>
+			</td>
+		</tr>
+		 <tr>
+		    <td class="label"><?php echo $this->__('Search Label')?> <span class="required">*</span></td>
+		    <td class="input-ele"><input class="required-entry" value="<?php echo htmlentities($searchlabel)?>" name="search_attribute" id="search_attribute" /></td>
+		</tr>
+		</table>
+		</form>
+		<?php /***Search Form Ends***/?>
+
+		<?php  /***Search Result Starts***/
+
+		if($searchlabel!='')
+		{
+		?>
+		<table cellspacing="0" width="100%">
+			<tr>
+				<td class="label" height="20px" style="padding-top:10px;padding-bottom:10px"><span class="required"><?php echo $this->__('Search Result')?></span></td>
+			</tr>
+			
+		</table>
+		<div id="loadingmask" style="display: none;">
+			<div class="loader" id="loading-mask-loader" style="text-align:center;">
+				<img align="center" src="<?php echo $this->getSkinUrl($this->__('images/ajax-loader-tr.gif'))?>" alt="<?php echo $this->__('Loading...') ?>"/><?php echo $this->__('Loading...') ?>
+				</div>
+			<div id="loading-mask"></div>
+		</div>
+			<table cellspacing="0" border="0" class="form-list">
+		<?php
+			$write = Mage::getSingleton('core/resource')->getConnection('core_write');
+			$datavalues =  Mage::getModel('eav/entity_attribute_option')->getCollection()->join('attribute_option_value','(attribute_option_value.option_id = main_table.option_id) and main_table.attribute_id='.$attribute_id.' and attribute_option_value.store_id='.$store_id.' and value like "'.addslashes($searchlabel).'%"');
+				$rowcount=count($datavalues);
+				if($rowcount>0)
+				{?>
+					<tr>
+						<td class="label"><strong><?php echo $this->__('Label Value')?></strong></td>
+						<td class="label"><strong><?php echo $this->__('Action')?></strong></td>
+						
+					</tr>
+				<?php	foreach($datavalues as $val)
+					{?>
+						<tr>
+									<td class="label"><?php echo $this->__($val['value'])?></td>
+									<td align="left">									
+<button  id="del<?php echo $val['value_id']?>" class="delete delete-option" type="button" onclick="del(<?php echo $val['value_id']?>,<?php echo $val['option_id']?>)"><span>Mark for Deletion</span></button>
+								    	</td>
+									
+						</tr>
+					<?php } 
+				}
+				if($rowcount==0)
+				{?>
+					<tr>
+						<td class="label"><?php echo $this->__('No Result Found')?></td>
+					</tr>
+				<?php }
+		?>
+			</table>
+		<?php }?>
+		<?php /***Search Result Ends***/?>
+        </fieldset>
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+    var deleteForm = new varienForm('delete_form');
+function del(val,option)
+{
+	if(document.getElementById('value_id').value=='')
+	{
+		document.getElementById('value_id').value=val;
+		document.getElementById('del'+val).innerHTML='<span>UnMark</span>';
+		document.getElementById('del'+val).className='delete delete-option';
+	}
+	else
+	{
+		var ele=document.getElementById('value_id').value.split(',');
+		var l=ele.length;
+		for(var i=0;i<l;i++)
+		{
+			if(ele[i]==val)
+			{	
+				 var text='yes';
+				 ele.splice(i, 1);
+				 break;
+			}
+			else
+				text='no';
+			
+		}
+		if(text=='no')
+		{
+			document.getElementById('value_id').value=document.getElementById('value_id').value + ',' +val;
+			document.getElementById('del'+val).innerHTML='<span>UnMark</span>';
+			document.getElementById('del'+val).className='delete delete-option';
+		}
+		else
+		{
+			var str=ele.toString();
+			document.getElementById('del'+val).innerHTML='<span>Mark for Deletion</span>';
+			document.getElementById('del'+val).className='delete delete-option';
+			document.getElementById('value_id').value=str;
+		}
+		
+	}
+
+	if(document.getElementById('option_id').value=='')
+		document.getElementById('option_id').value=option;
+	else
+	{
+		var eleoption=document.getElementById('option_id').value.split(',');
+		var l=eleoption.length;
+		for(var i=0;i<l;i++)
+		{
+			if(eleoption[i]==option)
+			{	
+				 var text='yes';
+				 eleoption.splice(i, 1);
+				 break;
+			}
+			else
+				text='no';
+			
+		}
+		if(text=='no')
+		{
+			document.getElementById('option_id').value=document.getElementById('option_id').value + ',' +option;
+		}
+		else
+		{
+			var stroption=eleoption.toString();
+			document.getElementById('option_id').value=stroption;
+		}
+	}
+
+}
+</script>
+<?php
+Mage::getSingleton('core/session')->setDelSessionVariable();
+?>

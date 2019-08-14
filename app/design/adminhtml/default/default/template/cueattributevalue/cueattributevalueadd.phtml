@@ -1,0 +1,83 @@
+<?php
+/**
+ *
+ * Package :- Quick_Action_Attribute_Values_or_Labels
+ * Edition :- community
+ * Developed By :- CueBlocks.com
+ * 
+ */
+$Data = Mage::getSingleton('core/session')->getTempSessionVariable();
+
+$eavattributeObj = Mage::getModel('eav/entity_attribute');
+$filter_a = array('multiselect');
+$filter_b = array('select');
+$rows = $eavattributeObj->getCollection()->addFilter('`is_user_defined`','1')->addFieldToFilter('`frontend_input`',array($filter_a,$filter_b))->load();
+$arrdefault[]=array('value'     => '',
+                        'label'     => '---Select Attribute Code---');
+foreach($rows as $attribute)
+{
+	$attributelabelsarr[] = array(
+                'value'     => $attribute['attribute_id'],
+                'label'     => $attribute['attribute_code'],
+            );
+}
+$combinedarr=array_merge($arrdefault,$attributelabelsarr);
+$storeObj = Mage::getModel('core/store');
+$websiteObj = Mage::getModel('core/website');
+$StoreDetails = $storeObj->getCollection()->addFilter('`is_active`','1')->setLoadDefault(true)->load();
+$storegroupObj = Mage::getModel('core/store_group');
+?>
+<div class="content-header">
+    <table cellspacing="0" class="grid-header">
+        <tr>
+            <td><h3><?php echo $this->__('Add Attribute Labels')?></h3></td>
+            <td class="a-right">
+                <button onclick="editForm.submit()" class="scalable save" type="button"><span>Add Label</span></button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+    	<div class="entry-edit-head">
+        	<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Manage Options (values of your attribute)')?></h4>
+	</div>
+        <fieldset id="my-fieldset">
+		<?php /***Add Form Starts***/ ?>
+		<form id="edit_form" name="edit_form" method="post" action="<?php echo $this->getUrl('*/*/save')?>">
+		<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+		<table cellspacing="0" class="form-list">
+		<tr>
+			<td class="label"><?php echo $this->__('Select Attribute Code')?> <span class="required">*</span></td>
+			<td class="input-ele">  <select class="required-entry" name="attribute_id" id="attribute_id">
+						<?php foreach($combinedarr as $arratt){?>					
+						<option value="<?php echo $arratt['value']?>" <?php echo $Data['attribute_id']==$arratt['value'] ?'selected=selected':''?>><?php echo $arratt['label']?></option>
+						<?php }?>
+						</select>	
+			</td>
+		</tr>
+		<?php foreach($StoreDetails as $store)
+		{ 
+			$Website = $websiteObj->getCollection()->addFilter('`website_id`',$store['website_id'])->setLoadDefault(true)->load();
+			foreach($Website as $Websitename){}
+			$storegroup = $storegroupObj->getCollection()->addFilter('`group_id`',$store['group_id'])->setLoadDefault(true)->load();
+			foreach($storegroup as $storegroupname){}
+		?>
+			<tr>
+				<td class="label"><?php echo $this->__($Websitename['name']." &gt; ".$store['name'])?><?php if($store['store_id']=='0'){?><span class="required">*</span><?php }?></td>
+				<td class="input-ele"><input type="text" class="<?php echo $store['store_id']=='0'?'required-entry':''?>" value="<?php echo @$Data['attribute_option_value_'.$store['store_id']]?>" name="attribute_option_value_<?php echo $store['store_id']?>" id="attribute_option_value_<?php echo $store['store_id']?>"></td>
+			</tr>
+		<?php }?>
+		</table>
+		</form>
+		<?php /***Search Form Ends***/?>
+
+        </fieldset>
+
+</div>
+<script type="text/javascript">
+    var editForm = new varienForm('edit_form');
+    var deleteForm = new varienForm('delete_form');
+</script>
+<?php
+$Data = Mage::getSingleton('core/session')->setTempSessionVariable();
+?>

@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Quick_Action_Attribute_Values_or_Labels",
+    "type": "magento-module",
+    "license": "OSL-v3.0",
+    "homepage": "",
+    "description": "Extension to add Attribute Labels by CueBlocks.com",
+    "authors": [
+    {
+        "name": "CueBlocks",
+        "email": "riti.gulati@cueblocks.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

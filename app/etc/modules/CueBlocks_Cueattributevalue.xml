@@ -1,0 +1,17 @@
+<!--
+/**
+ *
+ * Package :- Quick_Action_Attribute_Values_or_Labels
+ * Edition :- community
+ * Developed By :- CueBlocks.com
+ * 
+ */
+-->
+<config>
+    <modules>
+        <CueBlocks_Cueattributevalue>
+            <active>true</active>
+            <codePool>community</codePool>
+        </CueBlocks_Cueattributevalue>
+    </modules>
+</config> 

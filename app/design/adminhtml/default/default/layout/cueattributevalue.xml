@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * Package :- Quick_Action_Attribute_Values_or_Labels
+ * Edition :- community
+ * Developed By :- CueBlocks.com
+ * 
+ */
+-->
+	<layout version="0.1.0">
+		<adminhtml_cueattributevalue_index>
+			<reference name="content">
+				<block type="cueattributevalue/adminhtml_cueattributevalue" name="cueattributevalue" />
+			</reference>
+		</adminhtml_cueattributevalue_index>
+	</layout>

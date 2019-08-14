@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * Package :- Quick_Action_Attribute_Values_or_Labels
+ * Edition :- community
+ * Developed By :- CueBlocks.com
+ * 
+ */
+-->
+<config>
+    <modules>
+        <CueBlocks_Cueattributevalue>
+            <version>1.6.2</version>
+        </CueBlocks_Cueattributevalue>
+    </modules> 
+    <global>
+        <resources>
+            <cueattributevalue_setup>
+                <setup>
+                    <module>CueBlocks_Cueattributevalue</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </cueattributevalue_setup>
+            <cueattributevalue_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </cueattributevalue_write>
+            <cueattributevalue_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </cueattributevalue_read>
+        </resources>
+        <blocks>
+            <cueattributevalue>
+                <class>CueBlocks_Cueattributevalue_Block</class>
+            </cueattributevalue>
+        </blocks>
+        <helpers>
+            <cueattributevalue>
+                <class>CueBlocks_Cueattributevalue_Helper</class>
+            </cueattributevalue>
+        </helpers>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <cueattributevalue before="Mage_Adminhtml">CueBlocks_Cueattributevalue_Adminhtml</cueattributevalue>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin> 
+</config>

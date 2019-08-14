@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Quick_Action_Attribute_Values_or_Labels</name>
+    <version>1.6.2</version>
+    <stability>stable</stability>
+    <license>OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Extension to add Attribute Labels by CueBlocks.com</summary>
+    <description>This extension has been developed by CueBlocks.com to add attirbute labels.</description>
+    <notes>Compatibility with patch SUPEE-6788</notes>
+    <authors><author><name>CueBlocks</name><user>Riti</user><email>riti.gulati@cueblocks.com</email></author></authors>
+    <date>2015-11-19</date>
+    <time>07:56:06</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="CueBlocks_Cueattributevalue.xml" hash="cb17491c5aa5bbfc667d2e7f51e4dccc"/></dir></target><target name="magecommunity"><dir name="CueBlocks"><dir name="Cueattributevalue"><dir name="Block"><dir name="Adminhtml"><dir name="Cueattributevalue"><dir name="Edit"><file name="Tabs.php" hash="b89d1728f3278570482018e38d61ea6d"/></dir><file name="Edit.php" hash="f2359d3c38452d13ffba9e8a7edf6f37"/></dir><file name="Cueattributevalue.php" hash="d1ca33e7e6982c5db7ace22f710f5891"/><dir name="Cueattributevaluedelete"><dir name="Edit"><file name="Tabs.php" hash="37b4a58b4695856082601d6f1ff3a5dc"/></dir><file name="Edit.php" hash="f9f8d25b2a9afacbce9055606e632655"/></dir><file name="Cueattributevaluedelete.php" hash="61968ece63443aacf0650732c3f9ff60"/></dir></dir><dir name="Helper"><file name="Data.php" hash="6a7bde10d6391609249973c57b714190"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="CueattributevalueController.php" hash="0157c3970d8fcc18e46bab8d0cbf26fd"/><file name="CueattributevaluedeleteController.php" hash="9b5c76f95c62be5ba14298ef5f2eaa02"/></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="0aecd20278902959dde3f44052a6b616"/><file name="config.xml" hash="a8d2b05aafaac68d7a330d76359f9c72"/></dir></dir></dir></target><target name="magedesign"><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="cueattributevalue.xml" hash="9270649436dc3a1c44c8ed5fcdf7eb98"/></dir><dir name="template"><dir name="cueattributevalue"><file name="cueattributevalueadd.phtml" hash="90b5779ddc153430b5112a7db48fa603"/><file name="cueattributevaluedelete.phtml" hash="9fd19aaf6b042677a3d6a8c673e8ec9f"/></dir></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.0.0</min><max>6.0.0</max></php></required></dependencies>
+</package>
